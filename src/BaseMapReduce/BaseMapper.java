@@ -18,7 +18,7 @@ public class BaseMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 	private Text word = new Text();
 	
 	public void map(LongWritable _key, Text value, Context context) throws IOException, InterruptedException {
-		StringTokenizer itr = new StringTokenizer(value.toString().split("\t")[12]);
+		StringTokenizer itr = new StringTokenizer(value.toString().split(",")[2]);
 		while (itr.hasMoreTokens()) {
 			word.set(itr.nextToken());
 			context.write(new Text(word), one);
