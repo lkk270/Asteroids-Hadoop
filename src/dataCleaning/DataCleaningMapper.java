@@ -24,7 +24,7 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 //			context.write(new Text(word), one);
 //		}
 		String[] lineArr = value.toString().split("\t");
-		if(lineArr.length == 18) {
+		if(lineArr.length == 18 && checkBlank(lineArr) == false) {
 			//String arrestKey = lineArr[0].replace(' ', '-');
 			String arrestDate = lineArr[1].replace(' ', '-');
 			//String PDCD = lineArr[2].replace(' ', '-');
@@ -43,15 +43,21 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 			//String yCoord = lineArr[15].replace(' ', '-');
 			//String latitude = lineArr[16].replace(' ', '-');
 			//String longitude = lineArr[17].replace(' ', '-');	
-		
+			try{
+				String year = arrestDate.split("/")[2];
+				offense1 = formatOffense(offense1);
+				offense2 = formatOffense(offense2);
+
+				context.write(new Text(""), new Text(arrestDate + "," + year + ","   + offense1  + "," + offense2  + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race));
+			}
+			catch(Exception e){
+				
+			}
 			
 //			if(gender.equals("M")){
 //				gender = "L";	
 //			}
-			offense1 = formatOffense(offense1);
-			offense2 = formatOffense(offense2);
-
-			context.write(new Text(""), new Text(arrestDate + "," + offense1  + "," + offense2  + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race));
+			
 		}
 	}
 
@@ -142,5 +148,17 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 
 		return formattedOffense;
 		
+	}
+
+	public boolean checkBlank(String[] arr){
+		boolean blank = false;
+		int [] indices = {1, 3, 5, 8, 9, 10, 11, 12, 13};
+		for (int i = 0; i < indices.length; i++){
+			int index =  indices[i];
+			if(arr[index].length() == 0 || arr[index].equals(" ")){
+				return true;
+			}
+		}
+		return blank;
 	}
 }
