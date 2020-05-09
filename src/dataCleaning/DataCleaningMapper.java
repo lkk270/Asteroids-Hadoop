@@ -25,30 +25,30 @@ public void map(LongWritable _key, Text value, Context context) throws IOExcepti
 //		}
 		String[] lineArr = value.toString().split("\t");
 		if(lineArr.length == 18) {
-			String arrestKey = lineArr[0];
-			String arrestDate = lineArr[1];
-			String PDCD = lineArr[2];
-			String offense1 = lineArr[3].replace(",", "-");
-			String KYCD = lineArr[4];
-			String offense2 = lineArr[5].replace(",", "-");
-			String lawCode = lineArr[6];
-			String lawCatCD = lineArr[7];
-			String borough = lineArr[8];
-			String precinct = lineArr[9];
-			String jurisdictionCode = lineArr[10];
-			String ageGroup = lineArr[11]; 
-			String gender = lineArr[12];
-			String race = lineArr[13];
-			String xCoord = lineArr[14];
-			String yCoord = lineArr[15];
-			String latitude = lineArr[16];
-			String longitude = lineArr[17];	
+			String arrestKey = lineArr[0].replace(' ', '-');
+			String arrestDate = lineArr[1].replace(' ', '-');
+			String PDCD = lineArr[2].replace(' ', '-');
+			String offense1 = lineArr[3].replace(",", "-").replace(' ', '-');
+			String KYCD = lineArr[4].replace(' ', '-');
+			String offense2 = lineArr[5].replace(",", "-").replace(' ', '-');
+			String lawCode = lineArr[6].replace(' ', '-');
+			String lawCatCD = lineArr[7].replace(' ', '-');
+			String borough = lineArr[8].replace(' ', '-');
+			String precinct = lineArr[9].replace(' ', '-');
+			String jurisdictionCode = lineArr[10].replace(' ', '-');
+			String ageGroup = lineArr[11].replace(' ', '-'); 
+			String gender = lineArr[12].replace(' ', '-');
+			String race = lineArr[13].replace(' ', '-');
+			String xCoord = lineArr[14].replace(' ', '-');
+			String yCoord = lineArr[15].replace(' ', '-');
+			String latitude = lineArr[16].replace(' ', '-');
+			String longitude = lineArr[17].replace(' ', '-');	
 		
 			
 //			if(gender.equals("M")){
 //				gender = "L";	
 //			}
-			context.write(new Text(""), new Text(arrestKey + "," + arrestDate + "," + offense1 + "," + PDCD + "," + KYCD + "," + offense2 + "," + lawCode + "," + lawCatCD + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race + "," + xCoord + "," + yCoord + "," + latitude + "," + longitude));
+			context.write(new Text(""), new Text(arrestKey + "," + arrestDate + "," + PDCD + "," + offense1  + "," + KYCD + "," + offense2 + "," + lawCode + "," + lawCatCD + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race + "," + xCoord + "," + yCoord + "," + latitude + "," + longitude));
 		}
 	}
 }
