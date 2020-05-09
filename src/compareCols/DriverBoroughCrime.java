@@ -12,17 +12,17 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 //import org.apache.hadoop.util.GenericOptionsParser;
 
-public class BaseDriver {
+public class DriverBoroughCrime {
 
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
 
-    Job job = new Job(conf, "offense count");
-    job.setJarByClass(BaseDriver.class);
+    Job job = new Job(conf, "gender count");
+    job.setJarByClass(DriverBoroughCrime.class);
     
-    job.setMapperClass(BaseMapper.class);
-    job.setCombinerClass(BaseReducer.class);
-    job.setReducerClass(BaseReducer.class);
+    job.setMapperClass(CompareBoroughCrimeMapper.class);
+    job.setCombinerClass(CompareReducer.class);
+    job.setReducerClass(CompareReducer.class);
     job.setNumReduceTasks(2);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
