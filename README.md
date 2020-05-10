@@ -1,8 +1,8 @@
-#Apache Hadoop & Apache Impala Data Analysis of NYPD Arrest Data#
+# Apache Hadoop & Apache Impala Data Analysis of NYPD Arrest Data
 
 Download dataset from this link as a .tsv file: https://data.cityofnewyork.us/Public-Safety/NYPD-Arrests-Data-Historic-/8h9b-rp9u/data
 
-##Setup##
+## Setup
 
 Move downloaded dataset into DUMBO.
 
@@ -16,7 +16,7 @@ Then move into HDFS/
 hadoop fs -put /home/<NetID>/<file_name.tsv> /user/<NetID>/ 
 ```
 
-##Data Cleaing and Formatting##
+## Data Cleaing and Formatting
 
 (Assuming the source files are are stored in their according folders on DUMBO -- if not: use)
 ```bash
@@ -31,7 +31,7 @@ jar cvf <driver_name.jar> *.class //creates jar file
 hadoop jar <driver_name.jar> <driver_name> /user/<NetID>/<data_set.tsv> /user/<NetID>/<output_folder> //runs jar 
 ```
 
-##Base Count with Map Reduce##
+## Base Count with Map Reduce
 Config argument is to specify which field you want the count to be done on -- it is required:
 
 num:
