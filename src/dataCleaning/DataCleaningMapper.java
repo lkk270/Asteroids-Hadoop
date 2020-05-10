@@ -28,31 +28,35 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 			//String arrestKey = lineArr[0].replace(' ', '-');
 			String arrestDate = lineArr[1].replace(' ', '-');
 			//String PDCD = lineArr[2].replace(' ', '-');
-			String offense1 = lineArr[3].replace(",", "-").replace(' ', '-');
+			String offense1 = lineArr[3].replace(",", "-").replace(' ', '-').toUpperCase();
 			//String KYCD = lineArr[4].replace(' ', '-');
-			String offense2 = lineArr[5].replace(",", "-").replace(' ', '-');
+			String offense2 = lineArr[5].replace(",", "-").replace(' ', '-').toUpperCase();
 			//String lawCode = lineArr[6].replace(' ', '-');
 			//String lawCatCD = lineArr[7].replace(' ', '-');
-			String borough = lineArr[8].replace(' ', '-');
+			String borough = lineArr[8].replace(' ', '-').toUpperCase();
 			String precinct = lineArr[9].replace(' ', '-');
 			String jurisdictionCode = lineArr[10].replace(' ', '-');
 			String ageGroup = lineArr[11].replace(' ', '-'); 
-			String gender = lineArr[12].replace(' ', '-');
-			String race = lineArr[13].replace(' ', '-');
+			String gender = lineArr[12].replace(' ', '-').toUpperCase();
+			String race = lineArr[13].replace(' ', '-').toUpperCase();
 			//String xCoord = lineArr[14].replace(' ', '-');
 			//String yCoord = lineArr[15].replace(' ', '-');
 			//String latitude = lineArr[16].replace(' ', '-');
 			//String longitude = lineArr[17].replace(' ', '-');	
-			try{
-				String year = arrestDate.split("/")[2];
-				offense1 = formatOffense(offense1);
-				offense2 = formatOffense(offense2);
+			if(checkAll(gender, borough, ageGroup, precinct, jurisdictionCode)){
+				try{
+					String year = arrestDate.split("/")[2];
+					offense1 = formatOffense(offense1);
+					offense2 = formatOffense(offense2);
+	
+					context.write(new Text(""), new Text(arrestDate + "," + year + ","   + offense1  + "," + offense2  + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race));
+				}
+				catch(Exception e){
+					
+				}
 
-				context.write(new Text(""), new Text(arrestDate + "," + year + ","   + offense1  + "," + offense2  + "," + borough + "," + precinct + "," + jurisdictionCode + "," + ageGroup  + "," + gender + "," + race));
 			}
-			catch(Exception e){
-				
-			}
+			
 			
 //			if(gender.equals("M")){
 //				gender = "L";	
@@ -146,9 +150,9 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 			formattedOffense = "Unclassified/Other";
 		}
 
-		return formattedOffense;
-		
+		return formattedOffense;	
 	}
+
 
 	public boolean checkBlank(String[] arr){
 		boolean blank = false;
@@ -161,4 +165,50 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 		}
 		return blank;
 	}
+
+
+	public boolean checkGender(String gender){
+		boolean good = false;
+		if (gender.equals("M") || gender.equals("F")){
+			good = true;
+		}
+		return good;
+	}
+
+
+	public boolean checkBorough(String borough){
+		boolean good = false;
+		if (borough.equals("M") || borough.equals("B") || borough.equals("K") || borough.equals("S") || borough.equals("Q")){
+			good = true;
+		}
+		return good;
+	}
+	
+
+	public boolean checkAge(String age){
+		boolean good = false;
+		if (age.equals("<18") || age.equals("18-24") || age.equals("25-44") || age.equals("45-64") || age.equals("65+")){
+			good = true;
+		}
+		return good;
+	}
+
+	public boolean checkPrecinctAndJurisdiction(String val){
+		try {
+			int number = Integer.parseInt(val);
+			return true;
+		} 
+		catch(NumberFormatException e) {
+			return false;
+		}
+	}
+
+	public boolean checkAll(String gender, String borough, String age, String precinct, String jurisdiction){
+		boolean good = false;
+		if(checkGender(gender) && checkBorough(borough) && checkAge(age) && checkPrecinctAndJurisdiction(precinct) && checkPrecinctAndJurisdiction(jurisdictionCode)){
+			good = true;
+		}
+		return good;
+	}
+
 }
