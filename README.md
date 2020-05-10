@@ -1,4 +1,4 @@
-#Apache Hadoop & Apache Impala Data Analysis of NYPD Arrest Data
+##Apache Hadoop & Apache Impala Data Analysis of NYPD Arrest Data
 
 Download dataset from this link as a .tsv file: https://data.cityofnewyork.us/Public-Safety/NYPD-Arrests-Data-Historic-/8h9b-rp9u/data
 
