@@ -21,12 +21,8 @@ public class DataCleaningDriver {
     job.setJarByClass(DataCleaningDriver.class);
     
     job.setMapperClass(DataCleaningMapper.class);
-//    job.setCombinerClass(DataCleaningReducer.class);
-//    job.setReducerClass(DataCleaningReducer.class);
-//    job.setNumReduceTasks(2);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
-    
     
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));

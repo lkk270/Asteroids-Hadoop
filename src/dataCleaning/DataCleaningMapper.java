@@ -12,17 +12,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-
 public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
-//	private final static IntWritable one = new IntWritable(1);
 	private Text word = new Text();
 	
 	public void map(LongWritable _key, Text value, Context context) throws IOException, InterruptedException {
-//		StringTokenizer itr = new StringTokenizer(value.toString().split("\t")[12]);
-//		while (itr.hasMoreTokens()) {
-//			word.set(itr.nextToken());
-//			context.write(new Text(word), one);
-//		}
 		String[] lineArr = value.toString().split("\t");
 		if(lineArr.length == 18 && checkBlank(lineArr) == false) {
 			//String arrestKey = lineArr[0].replace(' ', '-');
@@ -54,16 +47,11 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 				catch(Exception e){
 					
 				}
-
 			}
-			
-			
-//			if(gender.equals("M")){
-//				gender = "L";	
-//			}
 			
 		}
 	}
+
 
 	public String formatOffense(String offense){
 		String formattedOffense;
@@ -193,6 +181,7 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 		return good;
 	}
 
+
 	public boolean checkPrecinctAndJurisdiction(String val){
 		try {
 			int number = Integer.parseInt(val);
@@ -203,6 +192,7 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 		}
 	}
 
+
 	public boolean checkAll(String gender, String borough, String age, String precinct, String jurisdiction){
 		boolean good = false;
 		if(checkGender(gender) && checkBorough(borough) && checkAge(age) && checkPrecinctAndJurisdiction(precinct) && checkPrecinctAndJurisdiction(jurisdictionCode)){
@@ -210,5 +200,4 @@ public class DataCleaningMapper extends Mapper<LongWritable, Text, Text, Text>{
 		}
 		return good;
 	}
-
 }

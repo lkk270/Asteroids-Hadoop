@@ -20,13 +20,9 @@ public class BaseDriver extends Configured implements Tool{
   @Override
   public int run(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    System.out.println("args.length " + args.length);
-    System.out.println("args[3] " + args[3]);
-    System.out.println("args[3].split " + args[3].split("=")[1]);
     conf.set("config", args[3].split("=")[1]);
 
-    //Job job = new Job(conf, "offense count");
-    Job job = Job.getInstance(conf, "offense count");
+    Job job = Job.getInstance(conf, "count");
     job.setJarByClass(BaseDriver.class);
     
     job.setMapperClass(BaseMapper.class);
@@ -36,16 +32,13 @@ public class BaseDriver extends Configured implements Tool{
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
     
-    
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
     int ret = job.waitForCompletion(true) ? 0 : 1;
 
     return ret;
-
-
-
   }
+
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
     int exitCode = ToolRunner.run(conf, new BaseDriver(),  args);

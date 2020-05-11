@@ -24,14 +24,11 @@ public class BaseMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 
 	@Override
     protected void setup(Mapper.Context context)throws IOException, InterruptedException {
-        // get the searchingWord from configuration
 		index = context.getConfiguration().get("config");
-		System.out.print("INDEX " + index);
     }
 	
+	
 	public void map(LongWritable _key, Text value, Context context) throws IOException, InterruptedException {
-		// Configuration conf = context.getConfiguration();
-		// String index = conf.get("my.dummy.configuration");
 		StringTokenizer itr = new StringTokenizer(value.toString().split(",")[Integer.parseInt(index)]);
 		while (itr.hasMoreTokens()) {
 			word.set(itr.nextToken());
