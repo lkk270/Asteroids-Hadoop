@@ -68,7 +68,7 @@ Copy cleaned and formatted data into the folder.
 hdfs dfs -cp  /user/<NetID>/<cleaned_data_file_name>/part-r-00001 /user/<NetID>/<impalaInputFolder>
 ```
 
-Open Impala Shell and connect
+Open Impala Shell and connect.
 
 ```bash
 impala-shell
@@ -76,7 +76,7 @@ connect compute-1-1;
 use <NetID>;
 ```
 
-Create Impala Table
+Create Impala Table.
 
 ```bash
 create external table nypdArrestTableIMPALAMASTER (date string, year int, offense1 string, offense2 string, borough string, precinct int, jurisdiction int, ageGroup string, gender string, race string)
@@ -84,9 +84,9 @@ row format delimited fields terminated by ','
 location '/user/<NetID>/<ImpalaInputFolderName>';
 ```
 
-Now you can query one by one or use the built commands in the impalaCommands folder.
+Now you can query one by one or use the built commands in the impalaCommands folder to run many queries automatically.
 
-To run a .sql script first make sure it is on /home/NetID path on dumbo.
+To run a .sql script first make sure it is on /home/NetID path on DUMBO.
 Then connect to impala and do:
 
 ```bash
