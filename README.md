@@ -10,7 +10,7 @@ Move downloaded dataset into DUMBO.
 scp <file_name.tsv> <NetID>@dumbo.es.its.nyu.edu:/home/<NetID>
 ```
 
-Then move into HDFS/
+Then move into HDFS.
 
 ```bash
 hadoop fs -put /home/<NetID>/<file_name.tsv> /user/<NetID>/ 
@@ -36,16 +36,16 @@ Config argument is to specify which field you want the count to be done on -- it
 
 num:
 
-0 = arrestDate
-1 = year
-2 = crime_1
-3 = crime_2
-4 = borough
-5 = precinct
-6 = jurisdictionCode
-7 = age
-8 = gender
-9 = race
+###### 0 = arrestDate
+###### 1 = year
+###### 2 = crime_1
+###### 3 = crime_2
+###### 4 = borough
+###### 5 = precinct
+###### 6 = jurisdictionCode
+###### 7 = age
+###### 8 = gender
+###### 9 = race
 
 In DUMBO navigate to folder where the base map reduce java files are and then do:
 ```bash
@@ -54,6 +54,46 @@ javac -classpath $HADOOP_LIPATH/hadoop/*:$HADOOP_LIPATH/hadoop-0.20-mapreduce/*:
 jar cvf BaseDriver.jar *.class  //creates jar file
 hadoop jar <driver_name.jar> <driver_name> /user/<NetID>/<output_folder_name_from_data_cleaning_step>/part-r-00001 /user/<NetID>/<output_folder> -D config=<num>//runs jar 
 ```
+
+
+## Impala for more complex queries
+
+Make HDFS folder for Impala Input.
+```bash
+Hdfs dfs -mkdir impalaInputFolder
+```
+
+Copy cleaned and formatted data into the folder.
+```bash
+hdfs dfs -cp  /user/<NetID>/<cleaned_data_file_name>/part-r-00001 /user/<NetID>/<impalaInputFolder>
+```
+
+Open Impala Shell and connect
+
+```bash
+impala-shell
+connect compute-1-1;
+use <NetID>;
+```
+
+Create Impala Table
+
+```bash
+create external table nypdArrestTableIMPALAMASTER (date string, year int, offense1 string, offense2 string, borough string, precinct int, jurisdiction int, ageGroup string, gender string, race string)
+row format delimited fields terminated by ','
+location '/user/<NetID>/<ImpalaInputFolderName>';
+```
+
+Now you can query one by one or use the built commands in the impalaCommands folder.
+
+To run the .sql script first make sure it is on /home/<NetID> path on dumbo.
+Then connect to impala and do:
+
+```bash
+source <commands_file_name.sql>;  
+```
+
+
 
 
 
