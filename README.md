@@ -60,7 +60,7 @@ hadoop jar <driver_name.jar> <driver_name> /user/<NetID>/<output_folder_name_fro
 
 Make HDFS folder for Impala Input.
 ```bash
-Hdfs dfs -mkdir impalaInputFolder
+hdfs dfs -mkdir impalaInputFolder
 ```
 
 Copy cleaned and formatted data into the folder.
@@ -86,7 +86,7 @@ location '/user/<NetID>/<ImpalaInputFolderName>';
 
 Now you can query one by one or use the built commands in the impalaCommands folder.
 
-To run the .sql script first make sure it is on /home/<NetID> path on dumbo.
+To run a .sql script first make sure it is on /home/NetID path on dumbo.
 Then connect to impala and do:
 
 ```bash
